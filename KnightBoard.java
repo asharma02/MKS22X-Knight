@@ -55,7 +55,7 @@ public boolean solve(int startingRow, int startingCol){
     throw new IllegalArgumentException();
   }
   //CHECK IF EITHER PARAMETER IS NEGATIVE OR OUT OF bounds
-  return solveH(0,0, 1);
+  return solveH(startingRow, startingCol, 1);
 }
 
 /**
@@ -74,10 +74,10 @@ private boolean solveH(int row ,int col, int level){
   //if all squares visited, print solution
     if (row < board.length && row >= 0 && col < board[row].length && col >= 0 && board[row][col] == 0){
       board[row][col] = level;
-      if(solveH(row+1 ,col+2, level+1) || solveH(row+1, col-2, level+1) ||
-          solveH(row-1 ,col+2, level+1) || solveH(row-1, col-2, level+1) ||
-          solveH(row+2 ,col+1, level+1) || solveH(row+2, col-1, level+1) ||
-          solveH(row-2 ,col+1, level+1) || solveH(row-2, col-1, level+1)){
+      if(solveH(row + 1 ,col + 2, level + 1) || solveH(row + 1, col - 2, level + 1) ||
+          solveH(row - 1 ,col + 2, level + 1) || solveH(row - 1, col - 2, level + 1) ||
+          solveH(row + 2 ,col + 1, level + 1) || solveH(row + 2, col - 1, level + 1) ||
+          solveH(row - 2 ,col + 1, level + 1) || solveH(row - 2, col - 1, level + 1)){
           return true;
       }
       else {
