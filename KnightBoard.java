@@ -24,7 +24,7 @@ public String toString() {
         output += "_ " ;
       }
       else {
-        output += "k " ;
+        output += board[r][c] + " " ;
       }
     }
     output += "\n" ;
@@ -68,29 +68,27 @@ public int countSolutions(int startingRow, int startingCol){
 
 //Suggestion:
 private boolean solveH(int row ,int col, int level){
-  if (row > 0 && row < board.length && col > 0 && col < board[0].length) { //chekcs if the row recursively returned is in the board
-    if (level == board.length * board[0].length) {
-      return true;
-    }
-    //if all squares visited, print solution
-    board[row][col] = level;
-    if((solveH(row + 2, col + 1, level + 1) || solveH(row + 2, col - 1, level + 1) || solveH(row - 2, col + 1, level + 1) ||
-            solveH(row - 2, col - 1, level + 1) || solveH(row + 1, col + 2, level + 1) || solveH(row - 1, col + 2, level + 1) ||
-            solveH(row + 1, col - 2, level + 1) || solveH(row - 1, col - 2, level + 1))) {
-              return true;
-            }
-    else {
+  if (level == board.length * board[0].length + 1) {
+    return true;
+  }
+  //if all squares visited, print solution
+    if (row < board.length && row >= 0 && col < board[row].length && col >= 0 && board[row][col] == 0){
       board[row][col] = level;
-      return false;
+      if(solveH(row+1 ,col+2, level+1) || solveH(row+1, col-2, level+1) ||
+          solveH(row-1 ,col+2, level+1) || solveH(row-1, col-2, level+1) ||
+          solveH(row+2 ,col+1, level+1) || solveH(row+2, col-1, level+1) ||
+          solveH(row-2 ,col+1, level+1) || solveH(row-2, col-1, level+1)){
+          return true;
+      }
+      else {
+        board[row][col] = 0;
+        return false;
     }
+  }
+    return false;
+  }
     //choose one of the 8 moves and recursively check if this leads to the solution
     // if move doesnt work, try an alternative move
     //if no paths work, return false, will cause to remove the previously added item in recursion
       //if false is returned by the inital call, the method will return false
-  }
-  else {
-    return false;
-  }
-}
-
 }
