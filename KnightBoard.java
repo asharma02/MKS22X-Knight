@@ -69,9 +69,20 @@ public int countSolutions(int startingRow, int startingCol){
 //Suggestion:
 private boolean solveH(int row ,int col, int level){
   if (row > 0 && row < board.length && col > 0 && col < board[0].length) { //chekcs if the row recursively returned is in the board
-    if (level == startingRows * startingCols) {
+    if (level == board.length * board[0].length) {
       return true;
-    } //if all squares visited, print solution
+    }
+    //if all squares visited, print solution
+    board[row][col] = level;
+    if((solveH(row + 2, col + 1, level + 1) || solveH(row + 2, col - 1, level + 1) || solveH(row - 2, col + 1, level + 1) ||
+            solveH(row - 2, col - 1, level + 1) || solveH(row + 1, col + 2, level + 1) || solveH(row - 1, col + 2, level + 1) ||
+            solveH(row + 1, col - 2, level + 1) || solveH(row - 1, col - 2, level + 1))) {
+              return true;
+            }
+    else {
+      board[row][col] = level;
+      return false;
+    }
     //choose one of the 8 moves and recursively check if this leads to the solution
     // if move doesnt work, try an alternative move
     //if no paths work, return false, will cause to remove the previously added item in recursion
