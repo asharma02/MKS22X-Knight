@@ -1,7 +1,6 @@
 public class KnightBoard {
 
   private int[][]board;
-  private int[][] moves = new int[][] { {-2,-1},{-2,1}, {-1,2}, {1,2}, {2,1}, {2,-1}, {1,-2}, {-1,-2}};
 
   /**@throws IllegalArgumentException when either parameter is negative. **/
 
@@ -40,7 +39,7 @@ you get a blank board if you never called solve or
 when there is no solution**/
 
 private boolean addKnight(int row, int col, int level){
-  if (row < 0 || col < 0 || row >= board.length || col >= board[row].length || board[row][col]!=0) {
+  if (row < 0 || col < 0 || row >= board.length || col >= board[row].length || board[row][col]!= 0) {
       return false; //check for all of these constrants
     }
   board[row][col] = level; //if works, set the tile to the number
@@ -48,9 +47,14 @@ private boolean addKnight(int row, int col, int level){
  }
 
 
-private void removeKnight(int row, int col){
-  board[row][col] = 0; //set tile back to 0
+private boolean removeKnight(int row, int col){
+  if (row < 0 || col < 0 || row >= board.length || col >= board[row].length || board[row][col] == 0) {
+      return false;
+    }
+  board[row][col] = 0;
+  return true; //remove it from tile
  }
+
 
 /**
 @throws IllegalStateException when the board contains non-zero values.
@@ -70,35 +74,30 @@ public boolean solve(int startingRow, int startingCol){
     throw new IllegalArgumentException();
   }
   //CHECK IF EITHER PARAMETER IS NEGATIVE OR OUT OF bounds
-  return solveH(startingRow, startingCol, 1);
+  return solveH(startingRow, startingCol, 1); //call helper
 }
 
 
 private boolean solveH(int row ,int col, int level){
+  int[][] moves = {{1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {2, 1}, {2, -1}, {-2, 1}, {-2, -1}};
   if (level == board.length * board[0].length + 1) {
-    return true;
+    return true; //all tiles visited
   }
   //if all squares visited, print solution
-    if (row < board.length && row >= 0 && col < board[row].length && col >= 0 && board[row][col] == 0){
-      board[row][col] = level;
-      if(solveH(row + 1 ,col + 2, level + 1) || solveH(row + 1, col - 2, level + 1) ||
-          solveH(row - 1 ,col + 2, level + 1) || solveH(row - 1, col - 2, level + 1) ||
-          solveH(row + 2 ,col + 1, level + 1) || solveH(row + 2, col - 1, level + 1) ||
-          solveH(row - 2 ,col + 1, level + 1) || solveH(row - 2, col - 1, level + 1)){
-          return true;
+  for (int x = 0; x < moves.length; x++) {
+    for (int y = 0; y < moves[x].length - 1; y++) {
+      if (addKnight(row, col, level)) {
+        if (solveH(row + moves[x][y], col + moves[x][y+1], level + 1)) {
+          return true; //go through all possbile moves and check
+        }
+        else { //if doesnt work, removeknight
+          removeKnight(row, col);
+        }
       }
-      else {
-        board[row][col] = 0;
-        return false;
     }
   }
-    return false;
+  return false;
   }
-    //choose one of the 8 moves and recursively check if this leads to the solution
-    // if move doesnt work, try an alternative move
-    //if no paths work, return false, will cause to remove the previously added item in recursion
-      //if false is returned by the inital call, the method will return false
-}
 
 /**
 @throws IllegalStateException when the board contains non-zero values.
@@ -106,4 +105,5 @@ private boolean solveH(int row ,int col, int level){
  or out of bounds. **/
 public int countSolutions(int startingRow, int startingCol){
   return 0;
+}
 }
