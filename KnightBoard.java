@@ -1,6 +1,7 @@
 public class KnightBoard {
 
   private int[][]board;
+  private int[][] moves = {{1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {2, 1}, {2, -1}, {-2, 1}, {-2, -1}};
 
   /**@throws IllegalArgumentException when either parameter is negative. **/
 
@@ -79,7 +80,6 @@ public boolean solve(int startingRow, int startingCol){
 
 
 private boolean solveH(int row ,int col, int level){
-  int[][] moves = {{1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {2, 1}, {2, -1}, {-2, 1}, {-2, -1}};
   if (level == board.length * board[0].length + 1) {
     return true; //all tiles visited
   }
@@ -104,6 +104,35 @@ private boolean solveH(int row ,int col, int level){
 @throws IllegalArgumentException when either parameter is negative
  or out of bounds. **/
 public int countSolutions(int startingRow, int startingCol){
-  return 0;
+  for(int r = 0; r < board.length; r++) {
+    for(int c = 0; c < board[0].length; c++) {
+      if(board[r][c] != 0) {
+        throw new IllegalStateException();
+      }
+    }
+  } //check if empty
+  if (startingRow < 0 || startingCol < 0 || startingRow > board.length || startingCol > board[0].length) {
+    throw new IllegalArgumentException();
+  } //out of bounds
+    return countH(startingRow,startingCol, 1); //call helper
 }
+
+
+//HELPER FOR countH
+public int countH(int row, int col, int level) {
+    if (level == board.length * board[0].length) {
+      return 1;
+    } //if it works retrun 1
+    int result = 0;
+    for (int x = 0; x < moves.length; x++) {
+      for (int y = 0; y < moves[x].length - 1; y++) {
+      if (addKnight(row + moves[x][y], col + moves[x][y+1], level)){ //going through the moves
+        result += countH(row + moves[x][y], col + moves[x][y+1], level + 1); //if it works, add it to the result
+        removeKnight(row + moves[x][y], col + moves[x][y+1]); //if doesnt work remove it
+      }
+    }
+  }
+    return result;
+}
+
 }
