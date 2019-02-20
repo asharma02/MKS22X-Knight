@@ -1,5 +1,7 @@
 public class KnightBoard {
+
   private int[][]board;
+  private int[][] moves = new int[][] { {-2,-1},{-2,1}, {-1,2}, {1,2}, {2,1}, {2,-1}, {1,-2}, {-1,-2}};
 
   /**@throws IllegalArgumentException when either parameter is negative. **/
 
