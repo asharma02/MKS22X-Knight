@@ -39,6 +39,19 @@ public String toString() {
 you get a blank board if you never called solve or
 when there is no solution**/
 
+private boolean addKnight(int row, int col, int level){
+  if (row < 0 || col < 0 || row >= board.length || col >= board[row].length || board[row][col]!=0) {
+      return false; //check for all of these constrants
+    }
+  board[row][col] = level; //if works, set the tile to the number
+  return true;
+ }
+
+
+private void removeKnight(int row, int col){
+  board[row][col] = 0; //set tile back to 0
+ }
+
 /**
 @throws IllegalStateException when the board contains non-zero values.
 @throws IllegalArgumentException when either parameter is negative
@@ -60,15 +73,7 @@ public boolean solve(int startingRow, int startingCol){
   return solveH(startingRow, startingCol, 1);
 }
 
-/**
-@throws IllegalStateException when the board contains non-zero values.
-@throws IllegalArgumentException when either parameter is negative
- or out of bounds. **/
-public int countSolutions(int startingRow, int startingCol){
-  return 0;
-}
 
-//Suggestion:
 private boolean solveH(int row ,int col, int level){
   if (level == board.length * board[0].length + 1) {
     return true;
@@ -93,4 +98,12 @@ private boolean solveH(int row ,int col, int level){
     // if move doesnt work, try an alternative move
     //if no paths work, return false, will cause to remove the previously added item in recursion
       //if false is returned by the inital call, the method will return false
+}
+
+/**
+@throws IllegalStateException when the board contains non-zero values.
+@throws IllegalArgumentException when either parameter is negative
+ or out of bounds. **/
+public int countSolutions(int startingRow, int startingCol){
+  return 0;
 }
