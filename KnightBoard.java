@@ -1,7 +1,7 @@
 public class KnightBoard {
 
   private int[][]board;
-  private int[][] moves = {{1, 2}, {1, -2}, {-1, 2}, {-1, -2}, {2, 1}, {2, -1}, {-2, 1}, {-2, -1}};
+  private int[] moves = new int[]{1,2,1,-2,-1,2,-1,-2,2,1,2,-1,-2,1,-2,-1};
 
   /**@throws IllegalArgumentException when either parameter is negative. **/
 
@@ -83,21 +83,17 @@ private boolean solveH(int row ,int col, int level){
   if (level == board.length * board[0].length + 1) {
     return true; //all tiles visited
   }
-  //if all squares visited, print solution
-  for (int x = 0; x < moves.length; x++) {
-    for (int y = 0; y < moves[x].length - 1; y++) {
-      if (addKnight(row, col, level)) {
-        if (solveH(row + moves[x][y], col + moves[x][y+1], level + 1)) {
-          return true; //go through all possbile moves and check
+  if (addKnight(row, col, level)) {
+    for (int i = 0; i < 16; i = i + 2) {
+      if (solveH(row + moves[i], col + moves[i + 1],level + 1)){
+          return true;
         }
-        else { //if doesnt work, removeknight
-          removeKnight(row, col);
-        }
-      }
     }
+    removeKnight(row, col)
   }
-  return false;
-  }
+  return false
+}
+
 
 /**
 @throws IllegalStateException when the board contains non-zero values.
