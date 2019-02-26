@@ -89,9 +89,9 @@ private boolean solveH(int row ,int col, int level){
           return true;
         }
     }
-    removeKnight(row, col)
+    removeKnight(row, col);
   }
-  return false
+  return false;
 }
 
 
@@ -123,12 +123,10 @@ public int countH(int row, int col, int level) {
       return 1;
     }
     else {
-      for (int x = 0; x < moves.length; x++) {
-        for (int y = 0; y < moves[x].length - 1; y++) {
-          countH(row + moves[x][y], col + moves[x][y+1], level + 1);
-        }
+      for (int i = 0; i < 16; i = i + 2) {
+        count += countH(row + moves[i], col + moves[i + 1], level + 1);
       }
-    }
+    
     removeKnight(row, col);
   }
   return count;
