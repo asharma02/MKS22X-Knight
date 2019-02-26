@@ -126,7 +126,7 @@ public int countH(int row, int col, int level) {
       for (int i = 0; i < 16; i = i + 2) {
         count += countH(row + moves[i], col + moves[i + 1], level + 1);
       }
-    
+    }
     removeKnight(row, col);
   }
   return count;
