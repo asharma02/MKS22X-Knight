@@ -83,15 +83,15 @@ private boolean solveH(int row ,int col, int level){
   if (level == board.length * board[0].length + 1) {
     return true; //check if all tiles visited
   }
-  if (addKnight(row, col, level)) //check if knight can be placed here{
-    for (int i = 0; i < 16; i = i + 2) {
+  if (addKnight(row, col, level)) { //check if can add kngiht at this spot
+    for (int i = 0; i < moves.length; i = i + 2) { //loop through moves
       if (solveH(row + moves[i], col + moves[i + 1],level + 1)){
-          return true; //go through moves
+          return true; //go through the moves and see if it works
         }
     }
-    removeKnight(row, col);//if doesnt work, remove last knight
+    removeKnight(row, col); //if it doesnt work, remove the previous knight
   }
-  return false;//return false if doesnt work
+  return false; //if call doesnt work, return false
 }
 
 
@@ -116,20 +116,20 @@ public int countSolutions(int startingRow, int startingCol){
 
 //HELPER FOR countH
 public int countH(int row, int col, int level) {
-  int count = 0;
-  if (addKnight(row, col, level)) {
-    if (level == board.length * board[0].length) {
-      removeKnight(row, col);
+  int count = 0; //count var
+  if (addKnight(row, col, level)) { //can you add knight here?
+    if (level == board.length * board[0].length) { //if been to all tiles
+      removeKnight(row, col); //if this is the last tile, return 1 as it is 1 sol
       return 1;
     }
-    else {
-      for (int i = 0; i < 16; i = i + 2) {
-        count += countH(row + moves[i], col + moves[i + 1], level + 1);
+    else { //if not last tile
+      for (int i = 0; i < moves.length; i = i + 2) { //loop through the moves
+        count += countH(row + moves[i], col + moves[i + 1], level + 1); //go though all the directions
       }
     }
-    removeKnight(row, col);
+    removeKnight(row, col); //if doesnt work, rmeove the last knight
   }
-  return count;
+  return count; //return count, no need to return false
 }
 
 }
