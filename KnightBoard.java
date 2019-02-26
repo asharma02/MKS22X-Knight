@@ -121,20 +121,21 @@ public int countSolutions(int startingRow, int startingCol){
 //HELPER FOR countH
 public int countH(int row, int col, int level) {
   int count = 0;
-  if (addKnight)
+  if (addKnight(row, col, level)) {
     if (level == board.length * board[0].length) {
+      removeKnight(row, col);
       return 1;
-    } //if it works retrun 1
-    int result = 0;
-    for (int x = 0; x < moves.length; x++) {
-      for (int y = 0; y < moves[x].length - 1; y++) {
-      if (addKnight(row + moves[x][y], col + moves[x][y+1], level)){ //going through the moves
-        result += countH(row + moves[x][y], col + moves[x][y+1], level + 1); //if it works, add it to the result
-        removeKnight(row + moves[x][y], col + moves[x][y+1]); //if doesnt work remove it
+    }
+    else {
+      for (int x = 0; x < moves.length; x++) {
+        for (int y = 0; y < moves[x].length - 1; y++) {
+          countH(row + moves[x][y], col + moves[x][y+1], level + 1);
+        }
       }
     }
+    removeKnight(row, col);
   }
-    return result;
+  return count;
 }
 
 }
