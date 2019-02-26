@@ -120,6 +120,8 @@ public int countSolutions(int startingRow, int startingCol){
 
 //HELPER FOR countH
 public int countH(int row, int col, int level) {
+  int count = 0;
+  if (addKnight)
     if (level == board.length * board[0].length) {
       return 1;
     } //if it works retrun 1
