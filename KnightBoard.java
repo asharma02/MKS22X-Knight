@@ -81,17 +81,17 @@ public boolean solve(int startingRow, int startingCol){
 
 private boolean solveH(int row ,int col, int level){
   if (level == board.length * board[0].length + 1) {
-    return true; //all tiles visited
+    return true; //check if all tiles visited
   }
-  if (addKnight(row, col, level)) {
+  if (addKnight(row, col, level)) //check if knight can be placed here{
     for (int i = 0; i < 16; i = i + 2) {
       if (solveH(row + moves[i], col + moves[i + 1],level + 1)){
-          return true;
+          return true; //go through moves
         }
     }
-    removeKnight(row, col);
+    removeKnight(row, col);//if doesnt work, remove last knight
   }
-  return false;
+  return false;//return false if doesnt work
 }
 
 
