@@ -131,5 +131,5 @@ public int countH(int row, int col, int level) {
   }
   return count; //return count, no need to return false
 }
-
+ 
 }
