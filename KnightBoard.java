@@ -177,6 +177,6 @@ public int countH(int row, int col, int level) {
     removeKnight(row, col); //if doesnt work, rmeove the last knight
   }
   return count; //return count, no need to return false
-}
+} 
 
 }
