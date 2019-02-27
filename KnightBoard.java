@@ -81,7 +81,8 @@ public boolean solve(int startingRow, int startingCol){
     throw new IllegalArgumentException();
   }
   //CHECK IF EITHER PARAMETER IS NEGATIVE OR OUT OF bounds
-  return optsolveH(startingRow, startingCol, 1); //call helper
+  board[startingRow][startingCol] = 1;
+  return optsolveH(startingRow, startingCol, 2); //call helper
 }
 
 
@@ -104,14 +105,14 @@ private boolean optsolveH(int row ,int col, int level) {
   if (level == board.length * board[0].length + 1) {
     return true; //check if all tiles visited
   }
-  for (int i = 0; i < moves.length; i = i + 2) {
-    int[] current = nextmove(row, col);
-    board[current[0]][current[1]] = level;
-    if (optsolveH(current[0], current[1], level+1)) {
-      return true;
+    for (int i = 0; i < moves.length; i = i + 2) { //loop through moves
+      int[] current = nextmove(row, col);
+      board[current[0]][current[1]] = level;
+      if (optsolveH(current[0], current[1],level + 1)){
+          return true; //go through the moves and see if it works
+        }
     }
-  }
-  return false;
+  return false; //if call doesnt work, return false
 }
 
 private int possmoves(int r, int c) {
