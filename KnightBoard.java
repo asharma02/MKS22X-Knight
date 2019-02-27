@@ -81,7 +81,7 @@ public boolean solve(int startingRow, int startingCol){
     throw new IllegalArgumentException();
   }
   //CHECK IF EITHER PARAMETER IS NEGATIVE OR OUT OF bounds
-  board[startingRow][startingCol] = 1;
+  board[startingRow][startingCol] = 1; //firstly add the starting knight
   return optsolveH(startingRow, startingCol, 2); //call helper
 }
 
@@ -106,8 +106,8 @@ private boolean optsolveH(int row ,int col, int level) {
     return true; //check if all tiles visited
   }
     for (int i = 0; i < moves.length; i = i + 2) { //loop through moves
-      int[] current = nextmove(row, col);
-      board[current[0]][current[1]] = level;
+      int[] current = nextmove(row, col); //find the move with the least steps
+      board[current[0]][current[1]] = level; //using this notation only to get the x and y from the same method; set the found board tile to the current level
       if (optsolveH(current[0], current[1],level + 1)){
           return true; //go through the moves and see if it works
         }
@@ -121,24 +121,24 @@ private int possmoves(int r, int c) {
     if (inbounds(r + moves[i], c + moves[i + 1])) {
       count ++;
     }
-  }
+  }//finds number of possible moves by going through eahc of the moves at the tile given
   return count;
 }
 
 private int[] nextmove(int r, int c) {
-  int[] whichone = new int[2];
-  int lowest = board.length * board[0].length;
+  int[] whichone = new int[2]; //usng this to store the x and y
+  int lowest = board.length * board[0].length; //the max lowest
   for (int i = 0; i < moves.length; i = i + 2) { //loop through moves
-    if (inbounds(r + moves[i], c + moves[i + 1])) {
-    int temp = possmoves(r + moves[i], c + moves[i + 1]);
+    if (inbounds(r + moves[i], c + moves[i + 1])) { //check if inbounds
+    int temp = possmoves(r + moves[i], c + moves[i + 1]); //find the lowest number of possible moves by ssetting current choice to temp, and switching it to the lowest found every time
     if (temp < lowest) {
       lowest = temp;
       whichone[0] = r + moves[i];
-      whichone[1] = c + moves[i + 1];
+      whichone[1] = c + moves[i + 1]; //setting the new x and y values
     }
     }
   }
-  return whichone;
+  return whichone; //return to the helper optimized fucntion
 }
 
 
