@@ -47,6 +47,12 @@ private boolean addKnight(int row, int col, int level){
   return true;
  }
 
+private boolean inbounds(int row, int col) {
+  if (row < 0 || col < 0 || row >= board.length || col >= board[row].length || board[row][col]!= 0) {
+      return false; //check for all of these constrants
+    }
+    return true;
+}
 
 private boolean removeKnight(int row, int col){
   if (row < 0 || col < 0 || row >= board.length || col >= board[row].length || board[row][col] == 0) {
@@ -75,7 +81,7 @@ public boolean solve(int startingRow, int startingCol){
     throw new IllegalArgumentException();
   }
   //CHECK IF EITHER PARAMETER IS NEGATIVE OR OUT OF bounds
-  return solveH(startingRow, startingCol, 1); //call helper
+  return optsolveH(startingRow, startingCol, 1); //call helper
 }
 
 
@@ -92,6 +98,46 @@ private boolean solveH(int row ,int col, int level){
     removeKnight(row, col); //if it doesnt work, remove the previous knight
   }
   return false; //if call doesnt work, return false
+}
+
+private boolean optsolveH(int row ,int col, int level) {
+  if (level == board.length * board[0].length + 1) {
+    return true; //check if all tiles visited
+  }
+  for (int i = 0; i < moves.length; i = i + 2) {
+    int[] current = nextmove(row, col);
+    board[current[0]][current[1]] = level;
+    if (optsolveH(current[0], current[1], level+1)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+private int possmoves(int r, int c) {
+  int count = 0;
+  for (int i = 0; i < moves.length; i = i + 2) {
+    if (inbounds(r + moves[i], c + moves[i + 1])) {
+      count ++;
+    }
+  }
+  return count;
+}
+
+private int[] nextmove(int r, int c) {
+  int[] whichone = new int[2];
+  int lowest = board.length * board[0].length;
+  for (int i = 0; i < moves.length; i = i + 2) { //loop through moves
+    if (inbounds(r + moves[i], c + moves[i + 1])) {
+    int temp = possmoves(r + moves[i], c + moves[i + 1]);
+    if (temp < lowest) {
+      lowest = temp;
+      whichone[0] = r + moves[i];
+      whichone[1] = c + moves[i + 1];
+    }
+    }
+  }
+  return whichone;
 }
 
 
@@ -131,5 +177,5 @@ public int countH(int row, int col, int level) {
   }
   return count; //return count, no need to return false
 }
- 
+
 }
